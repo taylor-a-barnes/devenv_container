@@ -20,6 +20,7 @@ RUN apt-get clean && \
 
 # Copy the entrypoint file into the Docker image
 COPY entrypoint.sh /entrypoint.sh
+COPY .nvim/launch_nvim.sh /launch_nvim.sh
 
 # Configure Neovim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -31,5 +32,5 @@ RUN nvim --headless +PlugInstall +qall
 # Make the entrypoint script executable
 RUN chmod +x /entrypoint.sh
 
-# Define the entrypoint script that should be run
-ENTRYPOINT ["/entrypoint.sh"]
+# Set the command
+CMD ["/entrypoint.sh"]
