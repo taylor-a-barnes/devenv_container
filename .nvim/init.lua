@@ -206,3 +206,13 @@ vim.api.nvim_create_autocmd("VimResized", {
   end,
 })
 
+vim.api.nvim_create_augroup("ToggleTermStatusline", { clear = true })
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = "ToggleTermStatusline",
+  pattern = "term://*toggleterm#*",
+  callback = function()
+    vim.opt_local.laststatus = 0           -- hide status line
+    vim.opt_local.statusline = "%#Normal#" -- empty content, just applying Normal highlight
+  end,
+})
