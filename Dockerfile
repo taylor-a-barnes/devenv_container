@@ -32,5 +32,17 @@ RUN nvim --headless +PlugInstall +qall
 # Make the entrypoint script executable
 RUN chmod +x /entrypoint.sh
 
+# Set up code-server
+ENV CODE_SERVER_VERSION=4.100.3
+RUN curl -fsSL \
+        https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_amd64.deb \
+        -o code-server.deb && \
+    apt-get update && \
+    apt-get install -y ./code-server.deb && \
+    rm code-server.deb
+EXPOSE 8080
+COPY .code_server/launch_code-server.sh /launch_code-server.sh
+# NOTE: The above script will make code-server accessible through http://localhost:56610
+
 # Set the command
 CMD ["/entrypoint.sh"]
