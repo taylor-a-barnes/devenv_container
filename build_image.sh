@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t cmake/base .
+docker build -t taylorabarnes/devenv .

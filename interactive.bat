@@ -1,2 +1,2 @@
-docker run --rm -it -v %cd%:/repo cmake/base
+docker run --rm -it -v %cd%:/repo taylorabarnes/devenv
 pause

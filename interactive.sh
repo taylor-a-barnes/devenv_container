@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker run --rm -it -v $(pwd):/repo cmake/base
+docker run --rm -it -v $(pwd):/repo taylorabarnes/devenv

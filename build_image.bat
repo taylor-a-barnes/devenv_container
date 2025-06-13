@@ -1,2 +1,2 @@
-docker build -t cmake/base .
+docker build -t taylorabarnes/devenv .
 pause

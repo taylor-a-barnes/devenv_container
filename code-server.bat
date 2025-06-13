@@ -13,6 +13,6 @@ if defined CID (
     echo No container is currently using port %PORT%.
 )
 
-docker run --rm -it -v D:\udemy\CMake\neovim_container:/repo -p 127.0.0.1:%PORT%:8080 cmake/base /launch_code-server.sh
+docker run --rm -it -v D:\udemy\CMake\neovim_container:/repo -p 127.0.0.1:%PORT%:8080 taylorabarnes/devenv /launch_code-server.sh
 endlocal
 pause
