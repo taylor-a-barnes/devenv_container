@@ -41,6 +41,8 @@ RUN curl -fsSL \
     apt-get install -y ./code-server.deb && \
     rm code-server.deb
 EXPOSE 8080
+RUN mkdir -p ~/.config/code-server
+COPY config.yaml /root/.config/code-server/config.yaml
 COPY .code_server/launch_code-server.sh /launch_code-server.sh
 # NOTE: The above script will make code-server accessible through http://localhost:56610
 
