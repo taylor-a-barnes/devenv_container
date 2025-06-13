@@ -1,0 +1,8 @@
+{
+  "workbench.colorTheme": "Default Dark Modern",
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultLocation": "editor",
+  "terminal.integrated.splitCwd": "workspaceRoot",
+  "workbench.startupEditor": "none",
+  "code-runner.runInTerminal": true
+}
