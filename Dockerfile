@@ -43,6 +43,8 @@ RUN curl -fsSL \
 EXPOSE 8080
 RUN mkdir -p ~/.config/code-server
 COPY .code_server/config.yaml /root/.config/code-server/config.yaml
+RUN mkdir -p /root/.local/share/code-server/User
+COPY .code_server/settings.json /root/.local/share/code-server/User/settings.json
 COPY .code_server/launch_code-server.sh /launch_code-server.sh
 # NOTE: The above script will make code-server accessible through http://localhost:56610
 

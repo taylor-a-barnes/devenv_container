@@ -4,4 +4,4 @@ set -e
 
 umask 000
 cd /repo
-code-server
+code-server /repo
