@@ -13,7 +13,7 @@ Write-Host "2) VS Code"
 Write-Host "3) Terminal (default)"
 Write-Host ""
 Write-Host "Note: If you select VS Code, this container will launch a VS Code server."
-Write-Host "      You can then access the server by pointing a web browser to http://localhost:56610"
+Write-Host "      You can then access the server by pointing a web browser to http://localhost:${port}"
 Write-Host ""
 
 $choice = Read-Host "Enter your choice [1-3]"
@@ -42,7 +42,7 @@ switch ($choice) {
         }
 
         Write-Host "Launching VS Code through code-server."
-        Write-Host "To use it, open a web browser to http://localhost:56610"
+        Write-Host "To use it, open a web browser to http://localhost:${port}"
         Write-Host ""
         docker run --rm -it -v ${currentDir}:/repo -p 127.0.0.1:${port}:8080 ${image} bash /.code-server/entrypoint.sh
     }
