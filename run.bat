@@ -1,6 +1,6 @@
 @echo off
 
-set IMAGE=taylorabarnes/devenv:latest
+set /p IMAGE=<.docker/image_name
 
 REM Check if the image is already available, and pull if needed
 docker image inspect %IMAGE% >nul 2>&1
