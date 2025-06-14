@@ -43,6 +43,7 @@ RUN mkdir -p /root/.local/share/code-server/User
 COPY .code-server/settings.json /root/.local/share/code-server/User/settings.json
 
 COPY .docker/interface.ps1 /interface.ps1
+COPY .docker/interface.sh /interface.sh
 
 # Copy the entrypoint files into the Docker image
 COPY .term/entrypoint.sh /.term/entrypoint.sh

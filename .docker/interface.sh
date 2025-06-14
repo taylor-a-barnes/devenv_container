@@ -35,7 +35,7 @@ case $choice in
     echo "Launching VS Code through code-server."
     echo "To use it, open a web browser to http://localhost:56610"
     echo ""
-    docker run --rm -it -v ${currentDir}:/repo -p 127.0.0.1:${PORT}:8080 taylorabarnes/devenv bash /.code-server/entrypoint.sh
+    docker run --rm -it -v $(pwd):/repo -p 127.0.0.1:${PORT}:8080 taylorabarnes/devenv bash /.code-server/entrypoint.sh
     ;;
   3)
     echo "Entering an interactive terminal session"
