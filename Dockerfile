@@ -3,24 +3,29 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Install Neovim
 RUN apt-get clean && \
     apt-get update && \
     apt-get install -y software-properties-common && \
     apt-get update && \
     add-apt-repository -y ppa:neovim-ppa/unstable && \
-    apt-get install -y \
-                       cmake \
+    apt-get install -y --no-install-recommends \
                        curl \
-                       g++ \
-                       git \
                        neovim \
                        vim && \
    apt-get clean && \
    rm -rf /var/lib/apt/lists/*
 
-# Copy the entrypoint file into the Docker image
-COPY entrypoint.sh /entrypoint.sh
-COPY .nvim/launch_nvim.sh /launch_nvim.sh
+# Install code-server
+ENV CODE_SERVER_VERSION=4.100.3
+RUN curl -fsSL \
+        https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_amd64.deb \
+        -o code-server.deb && \
+    apt-get update && \
+    apt-get install -y ./code-server.deb && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm code-server.deb
 
 # Configure Neovim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -29,24 +34,21 @@ RUN mkdir -p ~/.config/nvim
 COPY .nvim/init.lua /root/.config/nvim/init.lua
 RUN nvim --headless +PlugInstall +qall
 
-# Make the entrypoint script executable
-RUN chmod +x /entrypoint.sh
-
-# Set up code-server
-ENV CODE_SERVER_VERSION=4.100.3
-RUN curl -fsSL \
-        https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_amd64.deb \
-        -o code-server.deb && \
-    apt-get update && \
-    apt-get install -y ./code-server.deb && \
-    rm code-server.deb
+# Configure code-server
 EXPOSE 8080
 RUN mkdir -p ~/.config/code-server
-COPY .code_server/config.yaml /root/.config/code-server/config.yaml
+COPY .code-server/config.yaml /root/.config/code-server/config.yaml
 RUN mkdir -p /root/.local/share/code-server/User
-COPY .code_server/settings.json /root/.local/share/code-server/User/settings.json
-COPY .code_server/launch_code-server.sh /launch_code-server.sh
+COPY .code-server/settings.json /root/.local/share/code-server/User/settings.json
+COPY .code-server/launch_code-server.sh /launch_code-server.sh
 # NOTE: The above script will make code-server accessible through http://localhost:56610
 
-# Set the command
+# Copy the entrypoint file into the Docker image
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Copy the nvim launch script into the Docker image
+COPY .nvim/launch_nvim.sh /launch_nvim.sh
+
+# Set the default command
 CMD ["/entrypoint.sh"]
