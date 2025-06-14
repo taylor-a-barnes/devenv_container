@@ -42,11 +42,17 @@ COPY .code-server/config.yaml /root/.config/code-server/config.yaml
 RUN mkdir -p /root/.local/share/code-server/User
 COPY .code-server/settings.json /root/.local/share/code-server/User/settings.json
 
-COPY .docker/interface.bat /interface.bat
+COPY .docker/interface.ps1 /interface.ps1
 
-# Copy the entrypoint file into the Docker image
+# Copy the entrypoint files into the Docker image
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+RUN mkdir -p /.nvim
+COPY .nvim/entrypoint.sh /.nvim/entrypoint.sh
+RUN chmod +x /.nvim/entrypoint.sh
+RUN mkdir -p /.code-server
+COPY .code-server/entrypoint.sh /.code-server/entrypoint.sh
+RUN chmod +x /.code-server/entrypoint.sh
 
 # Set the default command
 CMD ["/entrypoint.sh"]

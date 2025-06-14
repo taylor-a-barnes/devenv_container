@@ -18,10 +18,10 @@ IF %ERRORLEVEL% NEQ 0 (
 
 REM Copy the run script from the image
 FOR /F %%i IN ('docker create %IMAGE%') DO SET CID=%%i
-docker cp %CID%:/interface.bat .interface.bat >nul
+docker cp %CID%:/interface.ps1 .interface.ps1 >nul
 docker rm -v %CID% >nul
 
 REM Run the image's interface script
-.interface.bat
+powershell -ExecutionPolicy Bypass -File .interface.ps1
 
 pause
