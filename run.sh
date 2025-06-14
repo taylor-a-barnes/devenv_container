@@ -1,6 +1,7 @@
 #!/bin/sh
 
-IMAGE=taylorabarnes/devenv:latest
+IMAGE=$(cat .docker/image_name)
+PORT="${1:-56610}"
 
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
     echo "Image not found locally. Pulling $IMAGE..."
@@ -19,4 +20,4 @@ docker cp $CID:/interface.sh .interface.sh
 docker rm -v $CID
 
 # Run the image's interface script
-bash .interface.sh
+bash .interface.sh $IMAGE $PORT
