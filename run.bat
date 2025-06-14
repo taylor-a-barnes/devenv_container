@@ -22,6 +22,7 @@ docker cp %CID%:/interface.ps1 .interface.ps1 >nul
 docker rm -v %CID% >nul
 
 REM Run the image's interface script
-powershell -ExecutionPolicy Bypass -File .interface.ps1
+REM powershell -ExecutionPolicy Bypass -File .interface.ps1 %IMAGE%
+powershell -ExecutionPolicy Bypass -File .interface.ps1 -image %IMAGE%
 
 pause
