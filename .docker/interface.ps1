@@ -1,7 +1,6 @@
 # Get the current directory
 $currentDir = Get-Location
 
-Write-Host ""
 Write-Host "Which of the following would you like to open?"
 Write-Host "1) Neovim"
 Write-Host "2) VS Code"
@@ -45,7 +44,7 @@ switch ($choice) {
     "3" {
         Write-Host "Entering an interactive terminal session"
         Write-Host ""
-    docker run --rm -it -v ${currentDir}:/repo taylorabarnes/devenv
+        docker run --rm -it -v ${currentDir}:/repo taylorabarnes/devenv
     }
     Default {
         Write-Host "Invalid option."
