@@ -45,8 +45,8 @@ COPY .code-server/settings.json /root/.local/share/code-server/User/settings.jso
 COPY .docker/interface.ps1 /interface.ps1
 
 # Copy the entrypoint files into the Docker image
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY .term/entrypoint.sh /.term/entrypoint.sh
+RUN chmod +x /.term/entrypoint.sh
 RUN mkdir -p /.nvim
 COPY .nvim/entrypoint.sh /.nvim/entrypoint.sh
 RUN chmod +x /.nvim/entrypoint.sh
@@ -55,4 +55,4 @@ COPY .code-server/entrypoint.sh /.code-server/entrypoint.sh
 RUN chmod +x /.code-server/entrypoint.sh
 
 # Set the default command
-CMD ["/entrypoint.sh"]
+CMD ["/.term/entrypoint.sh"]
