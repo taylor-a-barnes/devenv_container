@@ -1,7 +1,7 @@
 #!/bin/sh
 
 IMAGE=$(cat .docker/image_name)
-PORT="${1:-56610}"
+PORT="${1:-0}"
 
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
     echo "Image not found locally. Pulling $IMAGE..."
@@ -16,8 +16,12 @@ fi
 
 # Copy the run script from the image
 CID=$(docker create $IMAGE)
-docker cp $CID:/interface.sh .interface.sh
-docker rm -v $CID
+docker cp $CID:/interface.sh .interface.sh > /dev/null
+docker rm -v $CID > /dev/null
 
 # Run the image's interface script
-bash .interface.sh $IMAGE $PORT
+if [ "$PORT" -eq 0 ]; then
+    bash .interface.sh $IMAGE
+else
+    bash .interface.sh $IMAGE $PORT
+fi
