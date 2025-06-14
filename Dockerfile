@@ -10,6 +10,7 @@ RUN apt-get clean && \
     apt-get update && \
     add-apt-repository -y ppa:neovim-ppa/unstable && \
     apt-get install -y --no-install-recommends \
+                       git \
                        curl \
                        neovim \
                        vim && \
@@ -40,6 +41,8 @@ RUN mkdir -p ~/.config/code-server
 COPY .code-server/config.yaml /root/.config/code-server/config.yaml
 RUN mkdir -p /root/.local/share/code-server/User
 COPY .code-server/settings.json /root/.local/share/code-server/User/settings.json
+
+COPY .docker/interface.bat /interface.bat
 
 # Copy the entrypoint file into the Docker image
 COPY entrypoint.sh /entrypoint.sh
