@@ -40,15 +40,10 @@ RUN mkdir -p ~/.config/code-server
 COPY .code-server/config.yaml /root/.config/code-server/config.yaml
 RUN mkdir -p /root/.local/share/code-server/User
 COPY .code-server/settings.json /root/.local/share/code-server/User/settings.json
-COPY .code-server/launch_code-server.sh /launch_code-server.sh
-# NOTE: The above script will make code-server accessible through http://localhost:56610
 
 # Copy the entrypoint file into the Docker image
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-
-# Copy the nvim launch script into the Docker image
-COPY .nvim/launch_nvim.sh /launch_nvim.sh
 
 # Set the default command
 CMD ["/entrypoint.sh"]
