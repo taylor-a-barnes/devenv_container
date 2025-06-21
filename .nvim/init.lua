@@ -136,11 +136,8 @@ vim.call('plug#end')
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
 
--- empty setup using defaults
+-- nvim-tree setup
 require('nvim-web-devicons').setup { default = true }
-require("nvim-tree").setup()
-
--- OR setup with some options
 require("nvim-tree").setup({
   sort = {
     sorter = "case_sensitive",
@@ -216,3 +213,18 @@ vim.api.nvim_create_autocmd("TermOpen", {
     vim.opt_local.statusline = "%#Normal#" -- empty content, just applying Normal highlight
   end,
 })
+
+-- Set indentation to use two spaces for C/C++ files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "cpp", "c", "h", "hpp", "txt" },
+  callback = function()
+    vim.bo.shiftwidth = 2   -- Indent size for << and >>
+    vim.bo.tabstop = 2      -- Number of spaces per tab
+    vim.bo.softtabstop = 2  -- Number of spaces for <Tab> in insert mode
+    vim.bo.expandtab = true -- Use spaces instead of tabs
+  end,
+})
+
+-- Disable mouse integration
+-- This is important for enabling features such as copy-and-paste into/out of the terminal
+vim.opt.mouse = ""
