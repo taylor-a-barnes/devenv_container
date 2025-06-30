@@ -21,7 +21,7 @@ case $choice in
   1)
     echo "Opening Neovim"
     echo ""
-    docker run --rm -it -v $(pwd):/repo ${image} bash /.nvim/entrypoint.sh
+    docker run --rm -it -v $(pwd):/work ${image} bash /.nvim/entrypoint.sh
     ;;
   2)
     # Check if any container is already using the port
@@ -36,12 +36,12 @@ case $choice in
     echo "Launching VS Code through code-server."
     echo "To use it, open a web browser to http://localhost:${port}"
     echo ""
-    docker run --rm -it -v $(pwd):/repo -p 127.0.0.1:${port}:8080 ${image} bash /.code-server/entrypoint.sh
+    docker run --rm -it -v $(pwd):/work -p 127.0.0.1:${port}:8080 ${image} bash /.code-server/entrypoint.sh
     ;;
   3)
     echo "Entering an interactive terminal session"
     echo ""
-    docker run --rm -it -v $(pwd):/repo ${image}
+    docker run --rm -it -v $(pwd):/work ${image}
     ;;
   *)
     echo "Invalid option."

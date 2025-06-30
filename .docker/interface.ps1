@@ -29,7 +29,7 @@ switch ($choice) {
     "1" {
         Write-Host "Opening Neovim"
         Write-Host ""
-        docker run --rm -it -v ${currentDir}:/repo ${image} bash /.nvim/entrypoint.sh
+        docker run --rm -it -v ${currentDir}:/work ${image} bash /.nvim/entrypoint.sh
     }
     "2" {
         # Check if any container is already using the port
@@ -44,12 +44,12 @@ switch ($choice) {
         Write-Host "Launching VS Code through code-server."
         Write-Host "To use it, open a web browser to http://localhost:${port}"
         Write-Host ""
-        docker run --rm -it -v ${currentDir}:/repo -p 127.0.0.1:${port}:8080 ${image} bash /.code-server/entrypoint.sh
+        docker run --rm -it -v ${currentDir}:/work -p 127.0.0.1:${port}:8080 ${image} bash /.code-server/entrypoint.sh
     }
     "3" {
         Write-Host "Entering an interactive terminal session"
         Write-Host ""
-        docker run --rm -it -v ${currentDir}:/repo ${image}
+        docker run --rm -it -v ${currentDir}:/work ${image}
     }
     Default {
         Write-Host "Invalid option."

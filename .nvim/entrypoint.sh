@@ -3,6 +3,6 @@
 set -e
 
 umask 000
-cd /repo
+cd /work
 
 nvim +NvimTreeOpen +ToggleTerm Terminal

@@ -216,7 +216,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 -- Set indentation to use two spaces for C/C++ files
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "cpp", "c", "h", "hpp", "txt" },
+  pattern = { "cpp", "c", "h", "hpp", "cmake" },
   callback = function()
     vim.bo.shiftwidth = 2   -- Indent size for << and >>
     vim.bo.tabstop = 2      -- Number of spaces per tab

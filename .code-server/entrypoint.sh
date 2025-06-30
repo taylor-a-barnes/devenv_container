@@ -3,7 +3,7 @@
 set -e
 
 umask 000
-cd /repo
+cd /work
 
-mkdir -p /repo/.code-server
-code-server /repo 1> /repo/.code-server/code-server.log
+mkdir -p /work/.code-server
+code-server /work 1> /work/.code-server/code-server.log
