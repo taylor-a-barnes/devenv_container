@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t taylorabarnes/devenv .
+docker build -t taylorabarnes/devenv-cuda .
