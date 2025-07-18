@@ -1,3 +1,8 @@
+-- Install lazy
+require("config.lazy")
+
+
+
 -- Setup for nvim-tree
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
@@ -225,6 +230,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+
+
 -- Disable mouse integration
 -- This is important for enabling features such as copy-and-paste into/out of the terminal
-vim.opt.mouse = ""
+-- vim.opt.mouse = ""
