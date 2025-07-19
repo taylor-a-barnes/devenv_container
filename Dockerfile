@@ -12,6 +12,7 @@ RUN apt-get clean && \
     apt-get install -y --no-install-recommends \
                        git \
                        curl \
+                       lldb \
                        neovim \
                        vim && \
    apt-get clean && \
@@ -31,8 +32,7 @@ RUN curl -fsSL \
 # Configure Neovim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-RUN mkdir -p ~/.config/nvim
-COPY .nvim/init.lua /root/.config/nvim/init.lua
+COPY .nvim/nvim /root/.config/nvim
 RUN nvim --headless +PlugInstall +qall
 
 # Configure code-server
