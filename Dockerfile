@@ -12,11 +12,25 @@ RUN apt-get clean && \
     apt-get install -y --no-install-recommends \
                        git \
                        curl \
-                       lldb \
+                       gdb \
                        neovim \
                        vim && \
-   apt-get clean && \
-   rm -rf /var/lib/apt/lists/*
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install OpenDebugAD7
+RUN apt-get clean && \
+    apt-get update && \
+    apt-get install -y unzip && \
+    mkdir -p /usr/OpenDebugAD7 && \
+    cd /usr/OpenDebugAD7 && \
+    curl -L --output OpenDebugAD7.vsix \
+    https://github.com/microsoft/vscode-cpptools/releases/download/v1.26.3/cpptools-linux-x64.vsix && \
+    unzip OpenDebugAD7.vsix && \
+    rm OpenDebugAD7.vsix && \
+    chmod +x ./extension/debugAdapters/bin/OpenDebugAD7 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install code-server
 ENV CODE_SERVER_VERSION=4.100.3

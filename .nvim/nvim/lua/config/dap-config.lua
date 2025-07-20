@@ -1,30 +1,32 @@
 local dap = require("dap")
 local dapui = require("dapui")
 
-dap.adapters.lldb = {
-  type = "executable",
-  command = "/usr/bin/lldb-vscode-14",
-  name = "lldb"
+dap.adapters.cppdbg = {
+  id = 'cppdbg',
+  type = 'executable',
+  command = '/usr/OpenDebugAD7/extension/debugAdapters/bin/OpenDebugAD7',
+  options = {
+    detached = false
+  }
 }
 
 dap.configurations.cpp = {
   {
-    name = "Launch C++ file",
-    type = "lldb",
+    name = "Launch with GDB",
+    type = "cppdbg",
     request = "launch",
     program = function()
       return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
     end,
-    cwd = "${workspaceFolder}",
+    cwd = '${workspaceFolder}',
     stopOnEntry = false,
-    setupCommands = { -- Pretty printing is required in order to display the contents of vectors
+    setupCommands = {
       {
-        text = '-enable-pretty-printing',
-        description =  'enable pretty printing',
+        description = "Enable pretty-printing for gdb",
+        text = "-enable-pretty-printing",
         ignoreFailures = false
       },
     },
-    args = {},
   },
 }
 
