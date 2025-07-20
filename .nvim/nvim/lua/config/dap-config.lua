@@ -1,25 +1,35 @@
 local dap = require("dap")
 local dapui = require("dapui")
 
-dap.adapters.lldb = {
-  type = "executable",
-  command = "/usr/bin/lldb-vscode-14",
-  name = "lldb"
+dap.adapters.cppdbg = {
+  id = 'cppdbg',
+  type = 'executable',
+  command = '/usr/OpenDebugAD7/extension/debugAdapters/bin/OpenDebugAD7',
+  options = {
+    detached = false
+  }
 }
 
 dap.configurations.cpp = {
   {
-    name = "Launch C++ file",
-    type = "lldb",
+    name = "Launch with GDB",
+    type = "cppdbg",
     request = "launch",
     program = function()
       return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
     end,
-    cwd = "${workspaceFolder}",
+    cwd = '${workspaceFolder}',
     stopOnEntry = false,
-    args = {},
+    setupCommands = {
+      {
+        description = "Enable pretty-printing for gdb",
+        text = "-enable-pretty-printing",
+        ignoreFailures = false
+      },
+    },
   },
 }
+
 dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = dap.configurations.cpp
 
@@ -36,3 +46,14 @@ vim.keymap.set("n", "<Leader>B", function()
   dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
 end)
 vim.keymap.set("n", "<Leader>dr", dap.repl.open)
+
+-- Set the breakpoint appearance
+vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = '#5b70da', bg = '#31353f' })
+vim.api.nvim_set_hl(0, 'DapLogPoint',  { fg = '#61afef', bg = '#31353f' })
+vim.api.nvim_set_hl(0, 'DapStopped',   { fg = '#98c379', bg = '#31353f' })
+vim.fn.sign_define('DapBreakpoint',          { text='●', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl='DapBreakpoint' })
+vim.fn.sign_define('DapBreakpointCondition', { text='●', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl='DapBreakpoint' })
+vim.fn.sign_define('DapBreakpointRejected',  { text='', texthl='DapBreakpoint', linehl='DapBreakpoint', numhl='DapBreakpoint' })
+vim.fn.sign_define('DapLogPoint',            { text='◆', texthl='DapLogPoint', linehl='DapLogPoint', numhl='DapLogPoint' })
+vim.fn.sign_define('DapStopped',             { text='', texthl='DapStopped', linehl='DapStopped', numhl='DapStopped' })
+
