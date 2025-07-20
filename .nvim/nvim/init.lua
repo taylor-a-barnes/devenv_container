@@ -142,7 +142,7 @@ vim.call('plug#end')
 vim.opt.termguicolors = true
 
 -- nvim-tree setup
-require('nvim-web-devicons').setup { default = true }
+-- require('nvim-web-devicons').setup { default = true }
 require("nvim-tree").setup({
   sort = {
     sorter = "case_sensitive",
@@ -229,8 +229,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.expandtab = true -- Use spaces instead of tabs
   end,
 })
-
-
 
 -- Disable mouse integration
 -- This is important for enabling features such as copy-and-paste into/out of the terminal
