@@ -11,11 +11,15 @@ RUN apt clean && \
     add-apt-repository -y ppa:neovim-ppa/unstable && \
     apt install -y --no-install-recommends \
                        clang \
+                       cmake \
                        curl \
+                       gcc \
                        gdb \
                        git \
+                       make \
                        neovim \
                        npm \
+                       python3-venv \
                        vim && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
