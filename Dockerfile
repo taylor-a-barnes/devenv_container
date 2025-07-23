@@ -20,6 +20,12 @@ RUN apt clean && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Install Cargo
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+    . "$HOME/.cargo/env" && \
+    rustup install nightly && \
+    rustup default nightly
+
 # Install OpenDebugAD7
 RUN apt clean && \
     apt update && \
@@ -46,6 +52,8 @@ RUN curl -fsSL \
     rm code-server.deb
 
 # Configure Neovim
+RUN . "$HOME/.cargo/env" && \
+    cargo install neocmakelsp
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 COPY .nvim/nvim /root/.config/nvim
