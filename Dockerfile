@@ -4,24 +4,24 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Neovim
-RUN apt-get clean && \
-    apt-get update && \
-    apt-get install -y software-properties-common && \
-    apt-get update && \
+RUN apt clean && \
+    apt update && \
+    apt install -y software-properties-common && \
+    apt update && \
     add-apt-repository -y ppa:neovim-ppa/unstable && \
-    apt-get install -y --no-install-recommends \
+    apt install -y --no-install-recommends \
                        git \
                        curl \
                        gdb \
                        neovim \
                        vim && \
-    apt-get clean && \
+    apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install OpenDebugAD7
-RUN apt-get clean && \
-    apt-get update && \
-    apt-get install -y unzip && \
+RUN apt clean && \
+    apt update && \
+    apt install -y unzip && \
     mkdir -p /usr/OpenDebugAD7 && \
     cd /usr/OpenDebugAD7 && \
     curl -L --output OpenDebugAD7.vsix \
@@ -29,7 +29,7 @@ RUN apt-get clean && \
     unzip OpenDebugAD7.vsix && \
     rm OpenDebugAD7.vsix && \
     chmod +x ./extension/debugAdapters/bin/OpenDebugAD7 && \
-    apt-get clean && \
+    apt clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install code-server
@@ -37,9 +37,9 @@ ENV CODE_SERVER_VERSION=4.100.3
 RUN curl -fsSL \
         https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_amd64.deb \
         -o code-server.deb && \
-    apt-get update && \
-    apt-get install -y ./code-server.deb && \
-    apt-get clean && \
+    apt update && \
+    apt install -y ./code-server.deb && \
+    apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm code-server.deb
 
@@ -48,6 +48,17 @@ RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 COPY .nvim/nvim /root/.config/nvim
 RUN nvim --headless +PlugInstall +qall
+
+# Install Tree Sitter Language Parsers
+RUN apt clean && \
+    apt update && \
+    apt install -y \
+                       gcc && \
+    nvim --headless +"TSInstallSync bash c cmake cpp cuda lua python rust vim vimdoc query markdown markdown_inline" +qall && \
+    apt remove gcc -y && \
+    apt autoremove -y && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Configure code-server
 EXPOSE 8080
