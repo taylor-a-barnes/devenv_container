@@ -10,10 +10,12 @@ RUN apt clean && \
     apt update && \
     add-apt-repository -y ppa:neovim-ppa/unstable && \
     apt install -y --no-install-recommends \
-                       git \
+                       clang \
                        curl \
                        gdb \
+                       git \
                        neovim \
+                       npm \
                        vim && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
@@ -48,6 +50,7 @@ RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 COPY .nvim/nvim /root/.config/nvim
 RUN nvim --headless +PlugInstall +qall
+RUN nvim --headless "+MasonInstall lua-language-server pyright clangd" +q
 
 # Install Tree Sitter Language Parsers
 RUN apt clean && \
