@@ -31,26 +31,6 @@ return {
         },
       })
 
-      -- Register custom neocmake server if not already registered
-      if not configs.neocmake then
-        configs.neocmake = {
-          default_config = {
-            cmd = { "neocmakelsp", "--stdio" },
-            filetypes = { "cmake", "txt" },
-            root_dir = function(fname)
-              return lspconfig.util.find_git_ancestor(fname) or vim.loop.cwd()
-            end,
-            single_file_support = true,
-            on_attach = on_attach, -- now on_attach is defined and passed
-            init_options = {
-              format = { enable = true },
-              lint = { enable = true },
-              scan_cmake_in_package = true,
-            },
-          },
-        }
-      end
-
       -- Add capabilities for completion/snippet support
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.completion.completionItem.snippetSupport = true
