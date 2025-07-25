@@ -47,6 +47,17 @@ vim.keymap.set("n", "<Leader>B", function()
 end)
 vim.keymap.set("n", "<Leader>dr", dap.repl.open)
 
+-- Key to terminate the session
+vim.keymap.set("n", "<F6>", function()
+  -- Gracefully terminate the session
+  dap.terminate()
+  -- Optionally disconnect if terminate isn't enough
+  dap.disconnect()
+  -- Close dapui windows and REPL
+  dapui.close()
+  dap.repl.close()
+end, { desc = "Terminate DAP session and clean up" })
+
 -- Set the breakpoint appearance
 vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = '#5b70da', bg = '#31353f' })
 vim.api.nvim_set_hl(0, 'DapLogPoint',  { fg = '#61afef', bg = '#31353f' })
