@@ -69,15 +69,7 @@ RUN nvim --headless +PlugInstall +qall
 RUN nvim --headless "+MasonInstall lua-language-server pyright clangd neocmakelsp" +q
 
 # Install Tree Sitter Language Parsers
-RUN apt clean && \
-    apt update && \
-    apt install -y \
-                       gcc && \
-    nvim --headless +"TSInstallSync bash c cmake cpp cuda lua python rust vim vimdoc query markdown markdown_inline" +qall && \
-    apt remove gcc -y && \
-    apt autoremove -y && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN nvim --headless +"TSInstallSync bash c cmake cpp cuda lua python rust vim vimdoc query markdown markdown_inline" +qall
 
 # Configure code-server
 EXPOSE 8080
