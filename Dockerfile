@@ -1,4 +1,3 @@
-# Use Ubuntu 22.04 as the base image
 FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -60,6 +59,30 @@ RUN curl -fsSL \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm code-server.deb
+
+# Add python
+RUN apt-get clean && \
+    apt-get update && \
+    apt-get install -y \
+                       python3 \
+                       python3-pip \
+                       python3-dev \
+                       && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Symlink python3 to python
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# Install PyCUDA and other Python packages
+RUN python -m pip install --upgrade pip setuptools wheel && \
+    python -m pip install \
+                          pycuda \
+                          numpy \
+                          scipy \
+                          matplotlib \
+                          pandas \
+                          jupyter
 
 # Configure Neovim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
