@@ -24,6 +24,18 @@ RUN apt clean && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Install NodeJS
+# This needs to be a recent version in order to support pyright
+RUN apt clean && \
+    apt update && \
+    curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh && \
+    bash nodesource_setup.sh && \
+    apt remove libnode-dev -y && \
+    apt install -y --no-install-recommends \
+                       nodejs && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install OpenDebugAD7
 RUN apt clean && \
     apt update && \
