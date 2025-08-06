@@ -41,7 +41,7 @@ return {
         on_attach = on_attach,
         capabilities = capabilities,
       })
-      
+
       lspconfig.clangd.setup {
         cmd = { "clangd", "--header-insertion=never" },
       }

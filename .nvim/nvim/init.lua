@@ -89,20 +89,6 @@ vim.api.nvim_create_user_command('GitBlameLine', function()
   print(vim.fn.system({ 'git', 'blame', '-L', line_number .. ',+1', filename }))
 end, { desc = 'Print the git blame for the current line' })
 
--- [[ Add optional packages ]]
--- Nvim comes bundled with a set of packages that are not enabled by
--- default. You can enable any of them by using the `:packadd` command.
-
--- For example, to add the "nohlsearch" package to automatically turn off search highlighting after
--- 'updatetime' and when going to insert mode
--- vim.cmd('packadd! nohlsearch')
-
-
-
-
-
-
-
 
 local vim = vim
 local Plug = vim.fn['plug#']
@@ -177,7 +163,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 -- Set indentation to use two spaces for C/C++ files
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "cpp", "c", "h", "hpp", "cmake" },
+  pattern = { "cpp", "c", "h", "hpp", "cmake", "lua" },
   callback = function()
     vim.bo.shiftwidth = 2   -- Indent size for << and >>
     vim.bo.tabstop = 2      -- Number of spaces per tab
