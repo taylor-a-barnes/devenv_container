@@ -112,7 +112,16 @@ jobs:
             $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
+      - name: Pick tag to inspect
+        id: pick
+        run: |
+          TAG=$(jq -r '.tags[0] // empty' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+          if [ -z "$TAG" ]; then
+            TAG="${REGISTRY_IMAGE}:main"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
       - name: Inspect merged image
-        run: docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:$(jq -r '.version' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+        run: docker buildx imagetools inspect "${{ steps.pick.outputs.tag }}"
 
 
