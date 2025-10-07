@@ -4,12 +4,12 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install Neovim
-RUN apt clean && \
-    apt update && \
-    apt install -y software-properties-common && \
-    apt update && \
+RUN apt-get clean && \
+    apt-get update && \
+    apt-get install -y software-properties-common && \
+    apt-get update && \
     add-apt-repository -y ppa:neovim-ppa/unstable && \
-    apt install -y --no-install-recommends \
+    apt-get install -y --no-install-recommends \
                        clang \
                        cmake \
                        curl \
@@ -21,25 +21,25 @@ RUN apt clean && \
                        npm \
                        python3-venv \
                        vim && \
-    apt clean && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install NodeJS
 # This needs to be a recent version in order to support pyright
-RUN apt clean && \
-    apt update && \
+RUN apt-get clean && \
+    apt-get update && \
     curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh && \
     bash nodesource_setup.sh && \
-    apt remove libnode-dev -y && \
-    apt install -y --no-install-recommends \
+    apt-get remove libnode-dev -y && \
+    apt-get install -y --no-install-recommends \
                        nodejs && \
-    apt clean && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install OpenDebugAD7
-RUN apt clean && \
-    apt update && \
-    apt install -y unzip && \
+RUN apt-get clean && \
+    apt-get update && \
+    apt-get install -y unzip && \
     mkdir -p /usr/OpenDebugAD7 && \
     cd /usr/OpenDebugAD7 && \
     curl -L --output OpenDebugAD7.vsix \
@@ -47,19 +47,24 @@ RUN apt clean && \
     unzip OpenDebugAD7.vsix && \
     rm OpenDebugAD7.vsix && \
     chmod +x ./extension/debugAdapters/bin/OpenDebugAD7 && \
-    apt clean && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Install code-server
+ARG TARGETARCH
 ENV CODE_SERVER_VERSION=4.100.3
-RUN curl -fsSL \
-        https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_amd64.deb \
-        -o code-server.deb && \
-    apt update && \
-    apt install -y ./code-server.deb && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm code-server.deb
+RUN set -eux; \
+    case "$TARGETARCH" in \
+      amd64) DEB_ARCH=amd64 ;; \
+      arm64) DEB_ARCH=arm64 ;; \
+      *) echo "Unsupported arch: $TARGETARCH"; exit 1 ;; \
+    esac; \
+    curl -fsSL \
+      -o /tmp/code-server.deb \
+      "https://github.com/coder/code-server/releases/download/v${CODE_SERVER_VERSION}/code-server_${CODE_SERVER_VERSION}_${DEB_ARCH}.deb"; \
+    apt-get update; \
+    apt-get install -y /tmp/code-server.deb; \
+    rm -rf /var/lib/apt/lists/* /tmp/code-server.deb
 
 # Configure Neovim
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
