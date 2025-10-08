@@ -2,8 +2,11 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      -- For better completion support
+      { "hrsh7th/cmp-nvim-lsp" },
+    },
     config = function()
-      local lspconfig = require("lspconfig")
       local configs = require("lspconfig.configs")
 
       -- Define on_attach function here
@@ -21,30 +24,69 @@ return {
         -- add more keymaps as needed
       end
 
-      -- Setup lua_ls as usual
-      lspconfig.lua_ls.setup({
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" },
-            },
-          },
-        },
-      })
-
       -- Add capabilities for completion/snippet support
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-      -- Setup the server with capabilities and on_attach
-      lspconfig.neocmake.setup({
+      -- Integrate with nvim-cmp if available
+      local cmp_lsp = pcall(require, "cmp_nvim_lsp") and require("cmp_nvim_lsp")
+      if cmp_lsp then
+        capabilities = cmp_lsp.default_capabilities(capabilities)
+      end
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      -- Setup lua_ls
+      vim.lsp.config.lua_ls = {
+        default_config = {
+          cmd = { "lua-language-server" },
+          filetypes = { "lua" },
+          root_dir = vim.loop.cwd(), -- Use current working directory as root
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { "vim" }, -- Recognize 'vim' global for Neovim
+              },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true), -- Lua runtime files
+              },
+            },
+          },
+        },
         on_attach = on_attach,
         capabilities = capabilities,
-      })
-
-      lspconfig.clangd.setup {
-        cmd = { "clangd", "--header-insertion=never" },
       }
+      vim.lsp.start(vim.lsp.config.lua_ls.default_config)
+
+      -- Setup neocmake
+      vim.lsp.config.neocmake = {
+        default_config = {
+          cmd = { "neocmakelsp" }, -- Verify the correct command
+          filetypes = { "cmake" },
+          root_dir = vim.loop.cwd(),
+        },
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }
+      vim.lsp.start(vim.lsp.config.neocmake.default_config)
+
+      -- Setup clangd
+      vim.lsp.config.clangd = {
+        default_config = {
+          cmd = { "clangd", "--header-insertion=never" },
+          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+          root_dir = vim.loop.cwd(),
+        },
+        on_attach = on_attach,
+        capabilities = capabilities,
+      }
+
+      -- Autocommand to start clangd for specific filetypes
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "c", "cpp", "objc", "objcpp", "cuda" },
+        callback = function(args)
+          vim.lsp.start(vim.lsp.config.clangd.default_config, { bufnr = args.buf })
+        end,
+      })
 
     end,
   },
