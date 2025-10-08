@@ -60,7 +60,7 @@ return {
       -- Setup neocmake
       vim.lsp.config.neocmake = {
         default_config = {
-          cmd = { "neocmakelsp" }, -- Verify the correct command
+          cmd = { 'neocmakelsp', '--stdio' },
           filetypes = { "cmake" },
           root_dir = vim.loop.cwd(),
         },
