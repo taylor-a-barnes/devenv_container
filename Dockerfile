@@ -87,7 +87,7 @@ RUN python -m pip install --upgrade pip setuptools wheel && \
                           numpy \
                           scipy \
                           matplotlib \
-                          nvidia-cutlass-dsl \
+                          nvidia-cutlass-dsl==4.2.0 \
                           pandas \
                           jupyter
 
