@@ -86,6 +86,9 @@ COPY .code-server/settings.json /root/.local/share/code-server/User/settings.jso
 
 COPY .docker/interface.ps1 /interface.ps1
 COPY .docker/interface.sh /interface.sh
+RUN mkdir -p /.podman
+COPY .podman/interface.ps1 /.podman/interface.ps1
+COPY .podman/interface.sh /.podman/interface.sh
 
 # Copy the entrypoint files into the Docker image
 COPY .term/entrypoint.sh /.term/entrypoint.sh
