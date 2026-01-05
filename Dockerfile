@@ -72,33 +72,33 @@ RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 COPY .nvim/nvim /root/.config/nvim
 RUN nvim --headless +PlugInstall +qall
-RUN nvim --headless "+MasonInstall lua-language-server pyright neocmakelsp" +q
+#RUN nvim --headless "+MasonInstall lua-language-server pyright neocmakelsp" +q
 
 # Install Tree Sitter Language Parsers
-RUN nvim --headless +"TSInstallSync bash c cmake cpp cuda lua python rust vim vimdoc query markdown markdown_inline" +qall
+#RUN nvim --headless +"TSInstallSync bash c cmake cpp cuda lua python rust vim vimdoc query markdown markdown_inline" +qall
 
 # Configure code-server
-EXPOSE 8080
-RUN mkdir -p ~/.config/code-server
-COPY .code-server/config.yaml /root/.config/code-server/config.yaml
-RUN mkdir -p /root/.local/share/code-server/User
-COPY .code-server/settings.json /root/.local/share/code-server/User/settings.json
+#EXPOSE 8080
+#RUN mkdir -p ~/.config/code-server
+#COPY .code-server/config.yaml /root/.config/code-server/config.yaml
+#RUN mkdir -p /root/.local/share/code-server/User
+#COPY .code-server/settings.json /root/.local/share/code-server/User/settings.json
 
-COPY .docker/interface.ps1 /interface.ps1
-COPY .docker/interface.sh /interface.sh
-RUN mkdir -p /.podman
-COPY .podman/interface.ps1 /.podman/interface.ps1
-COPY .podman/interface.sh /.podman/interface.sh
+#COPY .docker/interface.ps1 /interface.ps1
+#COPY .docker/interface.sh /interface.sh
+#RUN mkdir -p /.podman
+#COPY .podman/interface.ps1 /.podman/interface.ps1
+#COPY .podman/interface.sh /.podman/interface.sh
 
 # Copy the entrypoint files into the Docker image
-COPY .term/entrypoint.sh /.term/entrypoint.sh
-RUN chmod +x /.term/entrypoint.sh
-RUN mkdir -p /.nvim
-COPY .nvim/entrypoint.sh /.nvim/entrypoint.sh
-RUN chmod +x /.nvim/entrypoint.sh
-RUN mkdir -p /.code-server
-COPY .code-server/entrypoint.sh /.code-server/entrypoint.sh
-RUN chmod +x /.code-server/entrypoint.sh
+#COPY .term/entrypoint.sh /.term/entrypoint.sh
+#RUN chmod +x /.term/entrypoint.sh
+#RUN mkdir -p /.nvim
+#COPY .nvim/entrypoint.sh /.nvim/entrypoint.sh
+#RUN chmod +x /.nvim/entrypoint.sh
+#RUN mkdir -p /.code-server
+#COPY .code-server/entrypoint.sh /.code-server/entrypoint.sh
+#RUN chmod +x /.code-server/entrypoint.sh
 
 # Set the default command
 CMD ["/.term/entrypoint.sh"]
