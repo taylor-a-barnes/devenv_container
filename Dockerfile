@@ -71,7 +71,12 @@ RUN set -eux; \
 RUN curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 COPY .nvim/nvim /root/.config/nvim
-RUN nvim --headless +PlugInstall +qall
+
+RUN nvim --headless "+checkhealth nvim-treesitter" +qa || true
+RUN nvim --version && \
+    nvim --headless "+Lazy! sync" "+messages" +qa || true
+
+#RUN nvim --headless +PlugInstall +qall
 #RUN nvim --headless "+MasonInstall lua-language-server pyright neocmakelsp" +q
 
 # Install Tree Sitter Language Parsers
