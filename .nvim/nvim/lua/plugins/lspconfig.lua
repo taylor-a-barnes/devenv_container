@@ -3,8 +3,6 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      -- For better completion support
-      { "hrsh7th/cmp-nvim-lsp" },
     },
     config = function()
       local configs = require("lspconfig.configs")
@@ -29,11 +27,11 @@ return {
       capabilities.textDocument.completion.completionItem.snippetSupport = true
 
       -- Integrate with nvim-cmp if available
-      local cmp_lsp = pcall(require, "cmp_nvim_lsp") and require("cmp_nvim_lsp")
-      if cmp_lsp then
-        capabilities = cmp_lsp.default_capabilities(capabilities)
-      end
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      -- local cmp_lsp = pcall(require, "cmp_nvim_lsp") and require("cmp_nvim_lsp")
+      -- if cmp_lsp then
+      --   capabilities = cmp_lsp.default_capabilities(capabilities)
+      -- end
+      -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 
       -- Setup lua_ls
       vim.lsp.config.lua_ls = {
