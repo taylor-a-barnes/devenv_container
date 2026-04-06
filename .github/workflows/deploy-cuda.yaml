@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - cuda
-  pull_request:
 
 env:
   REGISTRY_IMAGE: ${{ vars.DOCKER_USERNAME }}/devenv-cuda
