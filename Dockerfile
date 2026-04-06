@@ -21,6 +21,7 @@ RUN apt-get clean && \
                        neovim \
                        npm \
                        python3-venv \
+                       python3-pip \
                        vim && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
