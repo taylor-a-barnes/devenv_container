@@ -1,2 +1,2 @@
-docker build -t taylorabarnes/devenv .
+podman build -t taylorabarnes/devenv .
 pause
