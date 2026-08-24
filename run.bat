@@ -26,7 +26,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 REM Copy the run script from the image
 FOR /F %%i IN ('podman create %IMAGE%') DO SET CID=%%i
-podman cp %CID%:/podman/interface.ps1 .podman/interface.ps1 >nul
+podman cp %CID%:/.podman/interface.ps1 .podman/interface.ps1 >nul
 podman rm -v %CID% >nul
 
 REM Run the image's interface script

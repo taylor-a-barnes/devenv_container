@@ -16,7 +16,7 @@ fi
 
 # Copy the run script from the image
 CID=$(podman create $IMAGE)
-podman cp $CID:/podman/interface.sh .podman/interface.sh > /dev/null
+podman cp $CID:/.podman/interface.sh .podman/interface.sh > /dev/null
 podman rm -v $CID > /dev/null
 
 # Run the image's interface script
